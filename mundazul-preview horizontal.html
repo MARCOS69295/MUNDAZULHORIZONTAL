@@ -1,0 +1,2314 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUNDAZUL - E-commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bibliotecas para códigos de barras e QR code -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #0d47a1;
+            --accent-color: #4285f4;
+            --text-color: #333;
+            --text-light: #777;
+            --bg-color: #fff;
+            --bg-secondary: #f5f5f5;
+            --border-color: #ddd;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #4285f4;
+            --secondary-color: #5c9ce6;
+            --accent-color: #64b5f6;
+            --text-color: #e0e0e0;
+            --text-light: #aaa;
+            --bg-color: #181818;
+            --bg-secondary: #222;
+            --border-color: #444;
+            --success-color: #66bb6a;
+            --warning-color: #ffa726;
+            --danger-color: #ef5350;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--danger-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--warning-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-methods i {
+            font-size: 2rem;
+            color: var(--text-color);
+        }
+
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Modal styles */
+        .modal-content {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Cart styles */
+        .cart-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-badge {
+            position: relative;
+            top: -8px;
+            right: 5px;
+            font-size: 0.7rem;
+        }
+
+        /* Admin panel */
+        .admin-panel {
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-panel h3 {
+            margin-bottom: 20px;
+        }
+
+        /* Chatbot */
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .chatbot-header {
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 350px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 3px;
+        }
+
+        .bot-message {
+            background-color: var(--bg-secondary);
+            margin-right: auto;
+            border-bottom-left-radius: 3px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chatbot-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .chatbot-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        /* Search bar styling */
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(66, 133, 244, 0.25);
+        }
+
+        /* Category pills */
+        .category-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .category-pill {
+            padding: 5px 15px;
+            background-color: var(--bg-secondary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-pill:hover, .category-pill.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 767px) {
+            .chatbot-container {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .payment-methods {
+                flex-wrap: wrap;
+            }
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Loading spinner */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        /* Theme toggle switch */
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Estilos para os códigos no checkout */
+        .payment-codes-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .payment-code-box {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .payment-code-box h5 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .code-container {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .code-input-group {
+            margin-top: 10px;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .code-copy-btn {
+            width: 100%;
+            padding: 8px;
+        }
+
+        /* Abas de métodos de pagamento */
+        .payment-method-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .payment-method-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+        }
+
+        .payment-method-tab.active {
+            background-color: var(--bg-color);
+            border-color: var(--border-color);
+            border-bottom-color: var(--bg-color);
+            margin-bottom: -1px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .payment-method-content {
+            display: none;
+        }
+
+        .payment-method-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">MUNDAZUL</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#featured">Em Destaque</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#promotions">Promoções</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contato</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <label class="theme-switch me-3">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <div class="dropdown me-3">
+                        <button class="btn btn-outline-light" type="button" id="adminDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-cog"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                            <li><a class="dropdown-item" href="#" id="admin-toggle">Modo Administrador</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light position-relative" type="button" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                                0
+                            </span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown" style="min-width: 300px;">
+                            <div id="cart-items" class="mb-3">
+                                <p class="text-center">Seu carrinho está vazio</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>Total:</span>
+                                <span id="cart-total" class="fw-bold">R$ 0,00</span>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" id="checkout-btn">Finalizar Compra</button>
+                                <button class="btn btn-outline-secondary" id="clear-cart-btn">Limpar Carrinho</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Panel (hidden by default) -->
+    <div class="container mt-4 admin-panel" id="admin-panel" style="display: none;">
+        <h3>Painel de Administração</h3>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                    <i class="fas fa-plus-circle me-2"></i> Adicionar Produto
+                </button>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button class="btn btn-warning w-100" id="manage-promotions-btn" data-bs-toggle="modal" data-bs-target="#promotionsModal">
+                    <i class="fas fa-percentage me-2"></i> Gerenciar Promoções
+                </button>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button class="btn btn-info w-100" id="manage-featured-btn" data-bs-toggle="modal" data-bs-target="#featuredModal">
+                    <i class="fas fa-star me-2"></i> Gerenciar Destaques
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Search and filters -->
+        <div class="row mb-4">
+            <div class="col-md-8 search-container">
+                <div class="input-group">
+                    <input type="text" class="form-control search-input" id="search-input" placeholder="Buscar produtos...">
+                    <button class="btn btn-primary" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" id="sort-select">
+                    <option value="default">Ordenar por</option>
+                    <option value="price-asc">Preço: Menor para Maior</option>
+                    <option value="price-desc">Preço: Maior para Menor</option>
+                    <option value="name-asc">Nome: A-Z</option>
+                    <option value="name-desc">Nome: Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="category-pills" id="category-filters">
+            <div class="category-pill active" data-category="all">Todos</div>
+            <div class="category-pill" data-category="eletrônicos">Eletrônicos</div>
+            <div class="category-pill" data-category="roupas">Roupas</div>
+            <div class="category-pill" data-category="casa">Casa &amp; Decoração</div>
+            <div class="category-pill" data-category="esportes">Esportes &amp; Lazer</div>
+            <div class="category-pill" data-category="beleza">Beleza &amp; Saúde</div>
+        </div>
+
+        <!-- Featured Products Section -->
+        <h2 class="mb-4" id="featured">Produtos em Destaque</h2>
+        <div class="row" id="featured-products">
+            <!-- Featured products will be displayed here -->
+        </div>
+
+        <!-- Promotions Section -->
+        <h2 class="mb-4 mt-5" id="promotions">Promoções</h2>
+        <div class="row" id="promotional-products">
+            <!-- Promotional products will be displayed here -->
+        </div>
+
+        <!-- All Products Section -->
+        <h2 class="mb-4 mt-5" id="products">Todos os Produtos</h2>
+        <div class="row" id="all-products">
+            <!-- All products will be displayed here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>MUNDAZUL</h5>
+                    <p>Sua loja online com os melhores produtos para você.</p>
+                    <div class="social-links">
+                        <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" title="Twitter/X"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Links Úteis</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-decoration-none">Termos e Condições</a></li>
+                        <li><a href="#" class="text-decoration-none">Política de Envio</a></li>
+                        <li><a href="#" class="text-decoration-none">Perguntas Frequentes</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 id="contact">Contato</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Av. Paulista, 1000 - São Paulo, SP</p>
+                    <p><i class="fas fa-phone me-2"></i> (11) 1234-5678</p>
+                    <p><i class="fas fa-envelope me-2"></i> contato@mundazul.com</p>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa" title="Visa"></i>
+                        <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                        <i class="fas fa-money-bill-wave" title="Dinheiro"></i>
+                        <i class="fas fa-qrcode" title="PIX"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <p>© 2023 MUNDAZUL. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div class="chatbot-toggle" id="chatbot-toggle">
+        <i class="fas fa-comments"></i>
+    </div>
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chatbot-header">
+            <div>Assistente MUNDAZUL</div>
+            <i class="fas fa-times" id="chatbot-close" style="cursor: pointer;"></i>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="message bot-message">
+                Olá! Sou o assistente virtual da MUNDAZUL. Como posso ajudar você hoje?
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input-field" placeholder="Digite sua mensagem...">
+            <button id="chatbot-send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Adicionar Novo Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-product-form">
+                        <div class="mb-3">
+                            <label for="product-name" class="form-label">Nome do Produto</label>
+                            <input type="text" class="form-control" id="product-name" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="product-description" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="product-description" rows="3" required=""></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="product-price" class="form-label">Preço (R$)</label>
+                            <input type="number" class="form-control" id="product-price" min="0" step="0.01" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="product-image" class="form-label">URL da Imagem</label>
+                            <input type="text" class="form-control" id="product-image" placeholder="https://exemplo.com/imagem.jpg">
+                            <small class="form-text text-muted">Deixe em branco para gerar uma imagem aleatória</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="product-category" class="form-label">Categoria</label>
+                            <select class="form-select" id="product-category" required="">
+                                <option value="">Selecione uma categoria</option>
+                                <option value="eletrônicos">Eletrônicos</option>
+                                <option value="roupas">Roupas</option>
+                                <option value="casa">Casa &amp; Decoração</option>
+                                <option value="esportes">Esportes &amp; Lazer</option>
+                                <option value="beleza">Beleza &amp; Saúde</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="product-featured">
+                            <label class="form-check-label" for="product-featured">Produto em Destaque</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="product-discount" class="form-label">Desconto (%)</label>
+                            <input type="number" class="form-control" id="product-discount" min="0" max="100" value="0">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="save-product-btn">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Editar Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-product-form">
+                        <input type="hidden" id="edit-product-id">
+                        <div class="mb-3">
+                            <label for="edit-product-name" class="form-label">Nome do Produto</label>
+                            <input type="text" class="form-control" id="edit-product-name" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-product-description" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="edit-product-description" rows="3" required=""></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-product-price" class="form-label">Preço (R$)</label>
+                            <input type="number" class="form-control" id="edit-product-price" min="0" step="0.01" required="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-product-image" class="form-label">URL da Imagem</label>
+                            <input type="text" class="form-control" id="edit-product-image">
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-product-category" class="form-label">Categoria</label>
+                            <select class="form-select" id="edit-product-category" required="">
+                                <option value="">Selecione uma categoria</option>
+                                <option value="eletrônicos">Eletrônicos</option>
+                                <option value="roupas">Roupas</option>
+                                <option value="casa">Casa &amp; Decoração</option>
+                                <option value="esportes">Esportes &amp; Lazer</option>
+                                <option value="beleza">Beleza &amp; Saúde</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="edit-product-featured">
+                            <label class="form-check-label" for="edit-product-featured">Produto em Destaque</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-product-discount" class="form-label">Desconto (%)</label>
+                            <input type="number" class="form-control" id="edit-product-discount" min="0" max="100">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="update-product-btn">Atualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Promotions Modal -->
+    <div class="modal fade" id="promotionsModal" tabindex="-1" aria-labelledby="promotionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="promotionsModalLabel">Gerenciar Promoções</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Preço</th>
+                                    <th>Desconto</th>
+                                    <th>Preço Final</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="promotions-table-body">
+                                <!-- Rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Featured Products Modal -->
+    <div class="modal fade" id="featuredModal" tabindex="-1" aria-labelledby="featuredModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="featuredModalLabel">Gerenciar Produtos em Destaque</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th>Em Destaque</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="featured-table-body">
+                                <!-- Rows will be added dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal (com códigos de barras e QR code) -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">Finalizar Compra</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Resumo do Pedido</h6>
+                            <div id="checkout-items" class="mb-3">
+                                <!-- Checkout items will be added here -->
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <strong>Total:</strong>
+                                <span id="checkout-total" class="fw-bold"></span>
+                            </div>
+                            
+                            <!-- Métodos de Pagamento com Códigos -->
+                            <div class="mt-4">
+                                <h6>Métodos de Pagamento</h6>
+                                
+                                <div class="payment-method-tabs">
+                                    <div class="payment-method-tab active" onclick="switchPaymentTab('pix')">PIX</div>
+                                    <div class="payment-method-tab" onclick="switchPaymentTab('boleto')">Boleto</div>
+                                    <div class="payment-method-tab" onclick="switchPaymentTab('card')">Cartão</div>
+                                </div>
+                                
+                                <!-- Conteúdo PIX -->
+                                <div id="pix-content" class="payment-method-content active">
+                                    <div class="payment-codes-container">
+                                        <div class="payment-code-box">
+                                            <h5>QR Code PIX</h5>
+                                            <div class="code-container">
+                                                <canvas id="pix-qrcode" width="200" height="200"></canvas>
+                                            </div>
+                                            <div class="code-input-group">
+                                                <input type="text" class="code-input" id="pix-code" readonly="">
+                                                <button class="btn btn-primary btn-sm code-copy-btn" onclick="copyCode('pix-code')">
+                                                    <i class="fas fa-copy me-1"></i> Copiar código
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Conteúdo Boleto -->
+                                <div id="boleto-content" class="payment-method-content">
+                                    <div class="payment-codes-container">
+                                        <div class="payment-code-box">
+                                            <h5>Código de Barras</h5>
+                                            <div class="code-container">
+                                                <svg id="boleto-barcode"></svg>
+                                            </div>
+                                            <div class="code-input-group">
+                                                <input type="text" class="code-input" id="boleto-code" readonly="">
+                                                <button class="btn btn-primary btn-sm code-copy-btn" onclick="copyCode('boleto-code')">
+                                                    <i class="fas fa-copy me-1"></i> Copiar código
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Conteúdo Cartão -->
+                                <div id="card-content" class="payment-method-content">
+                                    <div class="mb-2">
+                                        <label for="card-number" class="form-label">Número do Cartão</label>
+                                        <input type="text" class="form-control" id="card-number" placeholder="0000 0000 0000 0000">
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col">
+                                            <label for="card-expiry" class="form-label">Validade</label>
+                                            <input type="text" class="form-control" id="card-expiry" placeholder="MM/AA">
+                                        </div>
+                                        <div class="col">
+                                            <label for="card-cvv" class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="card-cvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="card-name" class="form-label">Nome no Cartão</label>
+                                        <input type="text" class="form-control" id="card-name">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="card-installments" class="form-label">Parcelas</label>
+                                        <select class="form-select" id="card-installments">
+                                            <option value="1">1x sem juros</option>
+                                            <option value="2">2x sem juros</option>
+                                            <option value="3">3x sem juros</option>
+                                            <option value="4">4x sem juros</option>
+                                            <option value="5">5x sem juros</option>
+                                            <option value="6">6x sem juros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Endereço de Entrega</h6>
+                            <div class="mb-2">
+                                <label for="delivery-zip" class="form-label">CEP</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="delivery-zip" placeholder="00000-000" maxlength="9">
+                                    <button class="btn btn-outline-secondary" type="button" id="check-zip-btn">Verificar</button>
+                                </div>
+                                <small class="form-text text-muted">Digite o CEP para calcular o frete</small>
+                            </div>
+                            <div class="mb-2">
+                                <label for="delivery-address" class="form-label">Logradouro</label>
+                                <input type="text" class="form-control" id="delivery-street" readonly="">
+                            </div>
+                            <div class="mb-2">
+                                <label for="delivery-neighborhood" class="form-label">Bairro</label>
+                                <input type="text" class="form-control" id="delivery-neighborhood" readonly="">
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-8">
+                                    <label for="delivery-city" class="form-label">Cidade</label>
+                                    <input type="text" class="form-control" id="delivery-city" readonly="">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="delivery-state" class="form-label">Estado</label>
+                                    <input type="text" class="form-control" id="delivery-state" readonly="">
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label for="delivery-number" class="form-label">Número</label>
+                                <input type="text" class="form-control" id="delivery-number">
+                            </div>
+                            <div class="mb-2">
+                                <label for="delivery-complement" class="form-label">Complemento</label>
+                                <input type="text" class="form-control" id="delivery-complement" placeholder="Apto, bloco, etc (opcional)">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Opções de Entrega</label>
+                                <div class="card mb-2">
+                                    <div class="card-body p-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="delivery-option" id="delivery-standard" checked="">
+                                            <label class="form-check-label d-flex justify-content-between w-100" for="delivery-standard">
+                                                <span>Entrega Padrão (3-5 dias úteis)</span>
+                                                <span id="standard-shipping-cost">R$ 0,00</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-2">
+                                    <div class="card-body p-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="delivery-option" id="delivery-express">
+                                            <label class="form-check-label d-flex justify-content-between w-100" for="delivery-express">
+                                                <span>Entrega Expressa (1-2 dias úteis)</span>
+                                                <span id="express-shipping-cost">R$ 0,00</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirm-order-btn">Confirmar Pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div class="modal fade" id="orderConfirmationModal" tabindex="-1" aria-labelledby="orderConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderConfirmationModalLabel">Pedido Confirmado!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="fas fa-check-circle text-success" style="font-size: 5rem;"></i>
+                    <h4 class="mt-3">Obrigado pela sua compra!</h4>
+                    <p>Seu pedido foi recebido e está sendo processado.</p>
+                    <p>Número do pedido: <span id="order-number" class="fw-bold"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continuar Comprando</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="loading-spinner" style="display: none;">
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- App Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Set initial theme based on user preference
+            if (prefersDarkScheme.matches) {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.checked = true;
+            }
+            
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.setAttribute('data-theme', 'dark');
+                } else {
+                    document.body.removeAttribute('data-theme');
+                }
+            });
+
+            // Demo products
+            const demoProducts = [
+                {
+                    id: 1,
+                    name: 'Smartphone MUNDAZUL X1',
+                    description: 'Smartphone avançado com tela AMOLED de 6.5", processador octa-core, 8GB de RAM e 128GB de armazenamento.',
+                    price: 1999.99,
+                    image: 'https://picsum.photos/id/0/600/400',
+                    category: 'eletrônicos',
+                    featured: true,
+                    discount: 10
+                },
+                {
+                    id: 2,
+                    name: 'Notebook Ultra Slim',
+                    description: 'Notebook leve e potente com processador i7, 16GB de RAM, SSD de 512GB e tela Full HD de 14".',
+                    price: 4299.90,
+                    image: 'https://picsum.photos/id/1/600/400',
+                    category: 'eletrônicos',
+                    featured: false,
+                    discount: 0
+                },
+                {
+                    id: 3,
+                    name: 'Camiseta Eco Premium',
+                    description: 'Camiseta 100% algodão orgânico, sustentável e confortável. Disponível em várias cores.',
+                    price: 79.90,
+                    image: 'https://picsum.photos/id/20/600/400',
+                    category: 'roupas',
+                    featured: false,
+                    discount: 20
+                },
+                {
+                    id: 4,
+                    name: 'Tênis Esportivo Pro',
+                    description: 'Tênis com tecnologia de absorção de impacto, ideal para corridas e atividades físicas intensas.',
+                    price: 299.90,
+                    image: 'https://picsum.photos/id/21/600/400',
+                    category: 'esportes',
+                    featured: true,
+                    discount: 0
+                },
+                {
+                    id: 5,
+                    name: 'Kit Skincare Completo',
+                    description: 'Kit com limpador facial, tônico, hidratante e protetor solar para uma pele radiante e saudável.',
+                    price: 189.90,
+                    image: 'https://picsum.photos/id/30/600/400',
+                    category: 'beleza',
+                    featured: false,
+                    discount: 15
+                },
+                {
+                    id: 6,
+                    name: 'Sofá Retrátil 3 Lugares',
+                    description: 'Sofá confortável com assentos retráteis, encosto reclinável e tecido de alta qualidade.',
+                    price: 2499.90,
+                    image: 'https://picsum.photos/id/42/600/400',
+                    category: 'casa',
+                    featured: true,
+                    discount: 5
+                },
+                {
+                    id: 7,
+                    name: 'Smart TV 55" 4K',
+                    description: 'Smart TV com resolução 4K, HDR, sistema operacional inteligente e conectividade Wi-Fi.',
+                    price: 3299.90,
+                    image: 'https://picsum.photos/id/60/600/400',
+                    category: 'eletrônicos',
+                    featured: true,
+                    discount: 12
+                },
+                {
+                    id: 8,
+                    name: 'Conjunto Panelas Antiaderentes',
+                    description: 'Kit com 5 panelas antiaderentes de alta qualidade, com tampas de vidro temperado.',
+                    price: 399.90,
+                    image: 'https://picsum.photos/id/225/600/400',
+                    category: 'casa',
+                    featured: false,
+                    discount: 25
+                }
+            ];
+
+            // Function to initialize localStorage if needed
+            const initializeLocalStorage = () => {
+                if (!localStorage.getItem('products')) {
+                    localStorage.setItem('products', JSON.stringify(demoProducts));
+                }
+                if (!localStorage.getItem('cart')) {
+                    localStorage.setItem('cart', JSON.stringify([]));
+                }
+                if (!localStorage.getItem('orders')) {
+                    localStorage.setItem('orders', JSON.stringify([]));
+                }
+                if (!localStorage.getItem('nextProductId')) {
+                    localStorage.setItem('nextProductId', '9'); // Start after demo products
+                }
+            };
+
+            // Try to initialize localStorage, fall back to in-memory if not available
+            let products = [...demoProducts];
+            let cart = [];
+            let orders = [];
+            let nextProductId = 9;
+            let useLocalStorage = true;
+
+            try {
+                initializeLocalStorage();
+                products = JSON.parse(localStorage.getItem('products')) || [...demoProducts];
+                cart = JSON.parse(localStorage.getItem('cart')) || [];
+                orders = JSON.parse(localStorage.getItem('orders')) || [];
+                nextProductId = parseInt(localStorage.getItem('nextProductId')) || 9;
+            } catch (e) {
+                console.log("LocalStorage not available, using in-memory storage");
+                useLocalStorage = false;
+            }
+
+            // Helper function to save data
+            const saveData = (key, data) => {
+                if (useLocalStorage) {
+                    try {
+                        localStorage.setItem(key, JSON.stringify(data));
+                    } catch (e) {
+                        console.error("Error saving to localStorage:", e);
+                    }
+                }
+            };
+
+            // Function to render a single product card
+            const renderProductCard = (product, container) => {
+                const discountedPrice = product.discount > 0 
+                    ? product.price * (1 - product.discount / 100) 
+                    : product.price;
+                
+                const card = document.createElement('div');
+                card.className = 'col-lg-3 col-md-4 col-sm-6 mb-4';
+                card.dataset.category = product.category;
+                card.dataset.id = product.id;
+                
+                card.innerHTML = `
+                    <div class="card h-100">
+                        ${product.featured ? '<span class="featured-badge">Destaque</span>' : ''}
+                        ${product.discount > 0 ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text flex-grow-1">${product.description.length > 80 ? product.description.substring(0, 80) + '...' : product.description}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    ${product.discount > 0 ? 
+                                        `<span class="product-price">R$ ${discountedPrice.toFixed(2)}</span>
+                                        <span class="old-price">R$ ${product.price.toFixed(2)}</span>` : 
+                                        `<span class="product-price">R$ ${product.price.toFixed(2)}</span>`
+                                    }
+                                </div>
+                                <button class="btn btn-primary btn-sm add-to-cart" data-id="${product.id}">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent d-flex justify-content-between">
+                            <button class="btn btn-success btn-sm buy-now" data-id="${product.id}">Comprar Agora</button>
+                            <div class="admin-buttons" style="display: none;">
+                                <button class="btn btn-warning btn-sm edit-product" data-id="${product.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm delete-product" data-id="${product.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            };
+
+            // Function to render all products
+            const renderProducts = () => {
+                const allProductsContainer = document.getElementById('all-products');
+                const featuredContainer = document.getElementById('featured-products');
+                const promotionalContainer = document.getElementById('promotional-products');
+                
+                // Clear containers
+                allProductsContainer.innerHTML = '';
+                featuredContainer.innerHTML = '';
+                promotionalContainer.innerHTML = '';
+                
+                // Render products
+                products.forEach(product => {
+                    renderProductCard(product, allProductsContainer);
+                    
+                    if (product.featured) {
+                        renderProductCard(product, featuredContainer);
+                    }
+                    
+                    if (product.discount > 0) {
+                        renderProductCard(product, promotionalContainer);
+                    }
+                });
+                
+                // Add event listeners to buttons
+                document.querySelectorAll('.add-to-cart').forEach(button => {
+                    button.addEventListener('click', addToCartHandler);
+                });
+                
+                document.querySelectorAll('.buy-now').forEach(button => {
+                    button.addEventListener('click', buyNowHandler);
+                });
+                
+                document.querySelectorAll('.edit-product').forEach(button => {
+                    button.addEventListener('click', editProductHandler);
+                });
+                
+                document.querySelectorAll('.delete-product').forEach(button => {
+                    button.addEventListener('click', deleteProductHandler);
+                });
+            };
+
+            // Function to update product
+            const updateProduct = (productId, updatedProduct) => {
+                products = products.map(p => p.id === productId ? { ...updatedProduct, id: productId } : p);
+                saveData('products', products);
+                renderProducts();
+                updatePromotionsTable();
+                updateFeaturedTable();
+            };
+
+            // Function to delete product
+            const deleteProduct = (productId) => {
+                products = products.filter(p => p.id !== productId);
+                saveData('products', products);
+                cart = cart.filter(item => item.productId !== productId);
+                saveData('cart', cart);
+                renderProducts();
+                updateCart();
+                updatePromotionsTable();
+                updateFeaturedTable();
+            };
+
+            // Handler for adding products to cart
+            const addToCartHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const product = products.find(p => p.id === productId);
+                
+                if (product) {
+                    const existingItem = cart.find(item => item.productId === productId);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            productId: productId,
+                            quantity: 1,
+                            price: product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price
+                        });
+                    }
+                    
+                    saveData('cart', cart);
+                    updateCart();
+                    
+                    // Show confirmation
+                    showToast('Produto adicionado ao carrinho!');
+                }
+            };
+
+            // Handler for buy now button
+            const buyNowHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const product = products.find(p => p.id === productId);
+                
+                if (product) {
+                    // Clear cart and add only this product
+                    cart = [{
+                        productId: productId,
+                        quantity: 1,
+                        price: product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price
+                    }];
+                    
+                    saveData('cart', cart);
+                    updateCart();
+                    
+                    // Open checkout modal
+                    const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+                    checkoutModal.show();
+                    updateCheckoutModal();
+                    
+                    // Gerar códigos automaticamente
+                    generatePaymentCodes();
+                }
+            };
+
+            // Função para gerar os códigos de pagamento
+            const generatePaymentCodes = () => {
+                const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                
+                // Gerar código PIX
+                const pixData = {
+                    merchantName: "MUNDAZUL LTDA",
+                    orderNumber: Math.floor(100000 + Math.random() * 900000).toString(),
+                    amount: total.toFixed(2),
+                    key: "00020126580014br.gov.bcb.pix"
+                };
+                
+                // Gerar QR Code PIX
+                QRCode.toCanvas(document.getElementById("pix-qrcode"), JSON.stringify(pixData), {
+                    width: 200,
+                    margin: 1,
+                    color: {
+                        dark: '#000',
+                        light: '#fff'
+                    }
+                });
+                
+                // Definir o código PIX para cópia
+                const pixCode = "00020126580014br.gov.bcb.pix0136a1f86fde-59cf-4314-8711-5940f1330d4e5204000053039865802BR5925MUNDAZUL COMERCIO LTDA 6008SAOPAULO62070503***6304" + Math.floor(1000 + Math.random() * 9000);
+                document.getElementById('pix-code').value = pixCode;
+                
+                // Gerar código de barras para boleto
+                const formattedPrice = total.toFixed(2).replace('.', '').padStart(10, '0');
+                const boletoCode = "34191.79001 01043.510047 91020.150008 1 " + formattedPrice;
+                document.getElementById('boleto-code').value = boletoCode;
+                
+                // Gerar código de barras
+                JsBarcode("#boleto-barcode", boletoCode.replace(/[\.\s]/g, ''), {
+                    format: "ITF",
+                    lineColor: "#000",
+                    width: 2,
+                    height: 50,
+                    displayValue: false
+                });
+            };
+
+            // Função para alternar entre abas de pagamento
+            window.switchPaymentTab = function(tabId) {
+                // Remover classe active de todas as abas
+                document.querySelectorAll('.payment-method-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                // Remover classe active de todos os conteúdos
+                document.querySelectorAll('.payment-method-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Ativar a aba correspondente
+                if (tabId === 'pix') {
+                    document.querySelector('.payment-method-tab:nth-child(1)').classList.add('active');
+                    document.getElementById('pix-content').classList.add('active');
+                } else if (tabId === 'boleto') {
+                    document.querySelector('.payment-method-tab:nth-child(2)').classList.add('active');
+                    document.getElementById('boleto-content').classList.add('active');
+                } else if (tabId === 'card') {
+                    document.querySelector('.payment-method-tab:nth-child(3)').classList.add('active');
+                    document.getElementById('card-content').classList.add('active');
+                }
+            };
+
+            // Função para copiar código para a área de transferência
+            window.copyCode = function(elementId) {
+                const codeInput = document.getElementById(elementId);
+                codeInput.select();
+                document.execCommand('copy');
+                alert('Código copiado para a área de transferência!');
+            };
+
+            // Handler for editing product
+            const editProductHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const product = products.find(p => p.id === productId);
+                
+                if (product) {
+                    // Fill the edit form
+                    document.getElementById('edit-product-id').value = product.id;
+                    document.getElementById('edit-product-name').value = product.name;
+                    document.getElementById('edit-product-description').value = product.description;
+                    document.getElementById('edit-product-price').value = product.price;
+                    document.getElementById('edit-product-image').value = product.image;
+                    document.getElementById('edit-product-category').value = product.category;
+                    document.getElementById('edit-product-featured').checked = product.featured;
+                    document.getElementById('edit-product-discount').value = product.discount;
+                    
+                    // Show the modal
+                    const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                    editModal.show();
+                }
+            };
+
+            // Handler for deleting product
+            const deleteProductHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                
+                if (confirm(`Tem certeza que deseja excluir este produto?`)) {
+                    deleteProduct(productId);
+                    showToast('Produto excluído com sucesso!');
+                }
+            };
+
+            // Function to update cart
+            const updateCart = () => {
+                const cartBadge = document.querySelector('.cart-badge');
+                const cartItems = document.getElementById('cart-items');
+                const cartTotal = document.getElementById('cart-total');
+                
+                // Update badge
+                cartBadge.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+                
+                // Update items list
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<p class="text-center">Seu carrinho está vazio</p>';
+                } else {
+                    cartItems.innerHTML = '';
+                    
+                    cart.forEach(item => {
+                        const product = products.find(p => p.id === item.productId);
+                        
+                        if (product) {
+                            const cartItem = document.createElement('div');
+                            cartItem.className = 'cart-item';
+                            cartItem.innerHTML = `
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h6>${product.name}</h6>
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-sm btn-outline-secondary me-2 decrease-quantity" data-id="${item.productId}">-</button>
+                                            <span>${item.quantity}</span>
+                                            <button class="btn btn-sm btn-outline-secondary ms-2 increase-quantity" data-id="${item.productId}">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div>R$ ${item.price.toFixed(2)}</div>
+                                        <div>Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}</div>
+                                        <button class="btn btn-sm btn-danger mt-1 remove-from-cart" data-id="${item.productId}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            cartItems.appendChild(cartItem);
+                        }
+                    });
+                    
+                    // Add event listeners
+                    document.querySelectorAll('.decrease-quantity').forEach(button => {
+                        button.addEventListener('click', decreaseQuantityHandler);
+                    });
+                    
+                    document.querySelectorAll('.increase-quantity').forEach(button => {
+                        button.addEventListener('click', increaseQuantityHandler);
+                    });
+                    
+                    document.querySelectorAll('.remove-from-cart').forEach(button => {
+                        button.addEventListener('click', removeFromCartHandler);
+                    });
+                }
+                
+                // Update total
+                const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+            };
+
+            // Handler for decreasing item quantity
+            const decreaseQuantityHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const item = cart.find(item => item.productId === productId);
+                
+                if (item) {
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                        saveData('cart', cart);
+                        updateCart();
+                    } else {
+                        removeFromCartHandler(event);
+                    }
+                }
+            };
+
+            // Handler for increasing item quantity
+            const increaseQuantityHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const item = cart.find(item => item.productId === productId);
+                
+                if (item) {
+                    item.quantity += 1;
+                    saveData('cart', cart);
+                    updateCart();
+                }
+            };
+
+            // Handler for removing item from cart
+            const removeFromCartHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                cart = cart.filter(item => item.productId !== productId);
+                saveData('cart', cart);
+                updateCart();
+            };
+
+            // Function to update checkout modal
+            const updateCheckoutModal = () => {
+                const checkoutItems = document.getElementById('checkout-items');
+                const checkoutTotal = document.getElementById('checkout-total');
+                
+                // Update items list
+                checkoutItems.innerHTML = '';
+                
+                cart.forEach(item => {
+                    const product = products.find(p => p.id === item.productId);
+                    
+                    if (product) {
+                        const checkoutItem = document.createElement('div');
+                        checkoutItem.className = 'mb-2';
+                        checkoutItem.innerHTML = `
+                            <div class="d-flex justify-content-between">
+                                <div>${product.name} x ${item.quantity}</div>
+                                <div>R$ ${(item.price * item.quantity).toFixed(2)}</div>
+                            </div>
+                        `;
+                        
+                        checkoutItems.appendChild(checkoutItem);
+                    }
+                });
+                
+                // Update total
+                const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                checkoutTotal.textContent = `R$ ${total.toFixed(2)}`;
+            };
+
+            // Function to generate a random order number
+            const generateOrderNumber = () => {
+                return 'MZ-' + Math.floor(100000 + Math.random() * 900000);
+            };
+
+            // Function to update promotions table
+            const updatePromotionsTable = () => {
+                const tableBody = document.getElementById('promotions-table-body');
+                tableBody.innerHTML = '';
+                
+                products.forEach(product => {
+                    const row = document.createElement('tr');
+                    const discountedPrice = product.discount > 0 
+                        ? product.price * (1 - product.discount / 100) 
+                        : product.price;
+                    
+                    row.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>R$ ${product.price.toFixed(2)}</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control form-control-sm discount-input" min="0" max="100" value="${product.discount}" data-id="${product.id}">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </td>
+                        <td>R$ ${discountedPrice.toFixed(2)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary save-discount" data-id="${product.id}">
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners
+                document.querySelectorAll('.save-discount').forEach(button => {
+                    button.addEventListener('click', saveDiscountHandler);
+                });
+            };
+
+            // Handler for saving discount
+            const saveDiscountHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const discountInput = document.querySelector(`.discount-input[data-id="${productId}"]`);
+                const discount = parseInt(discountInput.value) || 0;
+                
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    product.discount = discount;
+                    updateProduct(productId, product);
+                    showToast('Desconto atualizado com sucesso!');
+                }
+            };
+
+            // Function to update featured products table
+            const updateFeaturedTable = () => {
+                const tableBody = document.getElementById('featured-table-body');
+                tableBody.innerHTML = '';
+                
+                products.forEach(product => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>R$ ${product.price.toFixed(2)}</td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input featured-toggle" type="checkbox" ${product.featured ? 'checked' : ''} data-id="${product.id}">
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary save-featured" data-id="${product.id}">
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners
+                document.querySelectorAll('.save-featured').forEach(button => {
+                    button.addEventListener('click', saveFeaturedHandler);
+                });
+            };
+
+            // Handler for saving featured status
+            const saveFeaturedHandler = (event) => {
+                const productId = parseInt(event.currentTarget.dataset.id);
+                const featuredToggle = document.querySelector(`.featured-toggle[data-id="${productId}"]`);
+                const featured = featuredToggle.checked;
+                
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    product.featured = featured;
+                    updateProduct(productId, product);
+                    showToast('Status de destaque atualizado com sucesso!');
+                }
+            };
+
+            // Function to show toast message (simplified)
+            const showToast = (message) => {
+                alert(message);
+            };
+
+            // Function to filter products
+            const filterProducts = (category, searchTerm = '') => {
+                const allCards = document.querySelectorAll('#all-products .card').length;
+                
+                // Hide all products first
+                document.querySelectorAll('#all-products > div').forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    const productId = parseInt(card.dataset.id);
+                    const product = products.find(p => p.id === productId);
+                    const nameMatch = product && product.name.toLowerCase().includes(searchTerm.toLowerCase());
+                    const descMatch = product && product.description.toLowerCase().includes(searchTerm.toLowerCase());
+                    
+                    if ((category === 'all' || cardCategory === category) && (searchTerm === '' || nameMatch || descMatch)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show message if no products found
+                const visibleProducts = document.querySelectorAll('#all-products > div[style="display: block"]').length;
+                const noResultsElem = document.getElementById('no-results');
+                
+                if (visibleProducts === 0 && allCards > 0) {
+                    if (!noResultsElem) {
+                        const noResults = document.createElement('div');
+                        noResults.id = 'no-results';
+                        noResults.className = 'col-12 text-center py-4';
+                        noResults.innerHTML = `
+                            <h4>Nenhum produto encontrado</h4>
+                            <p>Tente modificar os filtros ou pesquisar outro termo.</p>
+                        `;
+                        document.getElementById('all-products').appendChild(noResults);
+                    }
+                } else if (noResultsElem) {
+                    noResultsElem.remove();
+                }
+            };
+
+            // Function to sort products
+            const sortProducts = (sortType) => {
+                const container = document.getElementById('all-products');
+                const cards = Array.from(container.children);
+                
+                switch(sortType) {
+                    case 'price-asc':
+                        cards.sort((a, b) => {
+                            const productA = products.find(p => p.id === parseInt(a.dataset.id));
+                            const productB = products.find(p => p.id === parseInt(b.dataset.id));
+                            const priceA = productA.discount > 0 ? productA.price * (1 - productA.discount / 100) : productA.price;
+                            const priceB = productB.discount > 0 ? productB.price * (1 - productB.discount / 100) : productB.price;
+                            return priceA - priceB;
+                        });
+                        break;
+                    case 'price-desc':
+                        cards.sort((a, b) => {
+                            const productA = products.find(p => p.id === parseInt(a.dataset.id));
+                            const productB = products.find(p => p.id === parseInt(b.dataset.id));
+                            const priceA = productA.discount > 0 ? productA.price * (1 - productA.discount / 100) : productA.price;
+                            const priceB = productB.discount > 0 ? productB.price * (1 - productB.discount / 100) : productB.price;
+                            return priceB - priceA;
+                        });
+                        break;
+                    case 'name-asc':
+                        cards.sort((a, b) => {
+                            const productA = products.find(p => p.id === parseInt(a.dataset.id));
+                            const productB = products.find(p => p.id === parseInt(b.dataset.id));
+                            return productA.name.localeCompare(productB.name);
+                        });
+                        break;
+                    case 'name-desc':
+                        cards.sort((a, b) => {
+                            const productA = products.find(p => p.id === parseInt(a.dataset.id));
+                            const productB = products.find(p => p.id === parseInt(b.dataset.id));
+                            return productB.name.localeCompare(productA.name);
+                        });
+                        break;
+                    default:
+                        return;
+                }
+                
+                // Clear container and append cards in the new order
+                container.innerHTML = '';
+                cards.forEach(card => container.appendChild(card));
+            };
+
+            // Chatbot functionality
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const chatbotClose = document.getElementById('chatbot-close');
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const chatbotInput = document.getElementById('chatbot-input-field');
+            const chatbotSend = document.getElementById('chatbot-send');
+
+            chatbotToggle.addEventListener('click', () => {
+                chatbotContainer.style.display = 'flex';
+            });
+
+            chatbotClose.addEventListener('click', () => {
+                chatbotContainer.style.display = 'none';
+            });
+
+            const sendChatMessage = () => {
+                const message = chatbotInput.value.trim();
+                
+                if (message) {
+                    // Add user message
+                    const userMessageElem = document.createElement('div');
+                    userMessageElem.className = 'message user-message';
+                    userMessageElem.textContent = message;
+                    chatbotMessages.appendChild(userMessageElem);
+                    
+                    // Clear input
+                    chatbotInput.value = '';
+                    
+                    // Auto-scroll to bottom
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                    
+                    // Generate bot response (simplified)
+                    setTimeout(() => {
+                        const botMessageElem = document.createElement('div');
+                        botMessageElem.className = 'message bot-message';
+                        
+                        // Simple response logic
+                        if (message.toLowerCase().includes('produto') || message.toLowerCase().includes('comprar')) {
+                            botMessageElem.textContent = 'Temos diversos produtos disponíveis em nossa loja! Você pode navegar pelas categorias ou usar a busca para encontrar algo específico.';
+                        } else if (message.toLowerCase().includes('preço') || message.toLowerCase().includes('valor') || message.toLowerCase().includes('custo')) {
+                            botMessageElem.textContent = 'Os preços variam de acordo com o produto. Você pode ver o preço de cada item na página do produto.';
+                        } else if (message.toLowerCase().includes('entrega') || message.toLowerCase().includes('frete')) {
+                            botMessageElem.textContent = 'Oferecemos entrega para todo o Brasil. O prazo e o valor do frete depende da sua localização.';
+                        } else if (message.toLowerCase().includes('pagamento') || message.toLowerCase().includes('pagar')) {
+                            botMessageElem.textContent = 'Aceitamos cartões de crédito, PIX e boleto bancário. Ao finalizar a compra, você poderá escolher a forma de pagamento mais conveniente.';
+                        } else if (message.toLowerCase().includes('código') || message.toLowerCase().includes('qr') || message.toLowerCase().includes('barras')) {
+                            botMessageElem.textContent = 'Os códigos de pagamento (PIX e boleto) são gerados automaticamente quando você clica em "Comprar Agora" e vão para a finalização da compra.';
+                        } else if (message.toLowerCase().includes('desconto') || message.toLowerCase().includes('promoção')) {
+                            botMessageElem.textContent = 'Temos diversos produtos em promoção. Confira a seção de "Promoções" em nossa loja!';
+                        } else if (message.toLowerCase().includes('olá') || message.toLowerCase().includes('oi') || message.toLowerCase().includes('bom dia') || message.toLowerCase().includes('boa tarde') || message.toLowerCase().includes('boa noite')) {
+                            botMessageElem.textContent = 'Olá! Como posso ajudar você hoje?';
+                        } else if (message.toLowerCase().includes('ajuda') || message.toLowerCase().includes('suporte')) {
+                            botMessageElem.textContent = 'Estou aqui para ajudar! Você pode me perguntar sobre produtos, preços, entregas ou formas de pagamento.';
+                        } else {
+                            botMessageElem.textContent = 'Não entendi completamente sua pergunta. Posso ajudar com informações sobre produtos, preços, entregas ou formas de pagamento.';
+                        }
+                        
+                        chatbotMessages.appendChild(botMessageElem);
+                        
+                        // Auto-scroll to bottom
+                        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                    }, 1000);
+                }
+            };
+
+            chatbotSend.addEventListener('click', sendChatMessage);
+            
+            chatbotInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendChatMessage();
+                }
+            });
+
+            // CEP functionality
+            const checkZipButton = document.getElementById('check-zip-btn');
+            const zipInput = document.getElementById('delivery-zip');
+            
+            // Calculate shipping costs based on CEP
+            const calculateShipping = (cep) => {
+                // Remove any non-numeric characters
+                const numericCep = cep.replace(/\D/g, '');
+                
+                if (numericCep.length !== 8) {
+                    return { error: 'CEP inválido. O CEP deve conter 8 dígitos.' };
+                }
+                
+                // Get the first 3 digits to determine the region
+                const region = parseInt(numericCep.substring(0, 3));
+                
+                // Calculate shipping cost based on region
+                let standardShipping = 0;
+                let expressShipping = 0;
+                
+                // São Paulo capital
+                if (region >= 1 && region <= 9) {
+                    standardShipping = 15.90;
+                    expressShipping = 25.90;
+                }
+                // São Paulo interior
+                else if (region >= 10 && region <= 19) {
+                    standardShipping = 20.90;
+                    expressShipping = 35.90;
+                }
+                // Rio de Janeiro / Espírito Santo
+                else if (region >= 20 && region <= 29) {
+                    standardShipping = 25.90;
+                    expressShipping = 45.90;
+                }
+                // Minas Gerais
+                else if (region >= 30 && region <= 39) {
+                    standardShipping = 25.90;
+                    expressShipping = 45.90;
+                }
+                // Bahia / Sergipe
+                else if (region >= 40 && region <= 49) {
+                    standardShipping = 30.90;
+                    expressShipping = 55.90;
+                }
+                // Pernambuco / Alagoas / Paraíba / Rio Grande do Norte
+                else if (region >= 50 && region <= 59) {
+                    standardShipping = 35.90;
+                    expressShipping = 65.90;
+                }
+                // Ceará / Piauí / Maranhão
+                else if (region >= 60 && region <= 69) {
+                    standardShipping = 40.90;
+                    expressShipping = 75.90;
+                }
+                // Pará / Amazonas / Acre / Rondônia / Roraima / Amapá
+                else if (region >= 70 && region <= 79) {
+                    standardShipping = 45.90;
+                    expressShipping = 85.90;
+                }
+                // Paraná / Santa Catarina
+                else if (region >= 80 && region <= 89) {
+                    standardShipping = 22.90;
+                    expressShipping = 40.90;
+                }
+                // Rio Grande do Sul
+                else if (region >= 90 && region <= 99) {
+                    standardShipping = 25.90;
+                    expressShipping = 45.90;
+                }
+                // Default for other regions (like DF, GO, etc)
+                else {
+                    standardShipping = 30.90;
+                    expressShipping = 55.90;
+                }
+                
+                // Add a value based on cart total weight/value
+                const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                if (cartTotal > 1000) {
+                    standardShipping += 10;
+                    expressShipping += 15;
+                }
+                
+                return {
+                    standard: standardShipping,
+                    express: expressShipping
+                };
+            };
+            
+            // Format CEP as it's being typed (00000-000)
+            zipInput.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, '');
+                if (value.length > 5) {
+                    this.value = value.substring(0, 5) + '-' + value.substring(5, 8);
+                } else {
+                    this.value = value;
+                }
+            });
+            
+            // Check and fetch address based on CEP
+            checkZipButton.addEventListener('click', function() {
+                const cep = zipInput.value.replace(/\D/g, '');
+                
+                if (cep.length !== 8) {
+                    alert('CEP inválido. O CEP deve conter 8 dígitos.');
+                    return;
+                }
+                
+                // Show loading
+                const loadingSpinner = document.getElementById('loading-spinner');
+                loadingSpinner.style.display = 'flex';
+                
+                // Fetch address using ViaCEP API
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        loadingSpinner.style.display = 'none';
+                        
+                        if (data.erro) {
+                            alert('CEP não encontrado.');
+                            return;
+                        }
+                        
+                        // Fill address fields
+                        document.getElementById('delivery-street').value = data.logradouro;
+                        document.getElementById('delivery-neighborhood').value = data.bairro;
+                        document.getElementById('delivery-city').value = data.localidade;
+                        document.getElementById('delivery-state').value = data.uf;
+                        
+                        // Calculate shipping
+                        const shipping = calculateShipping(cep);
+                        document.getElementById('standard-shipping-cost').textContent = `R$ ${shipping.standard.toFixed(2)}`;
+                        document.getElementById('express-shipping-cost').textContent = `R$ ${shipping.express.toFixed(2)}`;
+                        
+                        // Update total with shipping
+                        updateCheckoutTotalWithShipping();
+                    })
+                    .catch(error => {
+                        loadingSpinner.style.display = 'none';
+                        alert('Erro ao buscar o CEP. Tente novamente.');
+                        console.error('Error fetching CEP:', error);
+                    });
+            });
+            
+            // Add shipping to total
+            const updateCheckoutTotalWithShipping = () => {
+                const productsTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                let shippingCost = 0;
+                
+                if (document.getElementById('delivery-standard').checked) {
+                    const shippingText = document.getElementById('standard-shipping-cost').textContent;
+                    shippingCost = parseFloat(shippingText.replace('R$ ', '')) || 0;
+                } else if (document.getElementById('delivery-express').checked) {
+                    const shippingText = document.getElementById('express-shipping-cost').textContent;
+                    shippingCost = parseFloat(shippingText.replace('R$ ', '')) || 0;
+                }
+                
+                const total = productsTotal + shippingCost;
+                document.getElementById('checkout-total').textContent = `R$ ${total.toFixed(2)}`;
+                
+                // Add shipping information to the checkout summary
+                const checkoutItems = document.getElementById('checkout-items');
+                
+                // Remove previous shipping info if exists
+                const oldShippingInfo = document.getElementById('shipping-info');
+                if (oldShippingInfo) {
+                    oldShippingInfo.remove();
+                }
+                
+                // Add shipping info
+                const shippingInfo = document.createElement('div');
+                shippingInfo.id = 'shipping-info';
+                shippingInfo.className = 'mt-3 pt-2 border-top';
+                shippingInfo.innerHTML = `
+                    <div class="d-flex justify-content-between">
+                        <div>Subtotal:</div>
+                        <div>R$ ${productsTotal.toFixed(2)}</div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>Frete:</div>
+                        <div>R$ ${shippingCost.toFixed(2)}</div>
+                    </div>
+                `;
+                
+                checkoutItems.appendChild(shippingInfo);
+            };
+            
+            // Update total when shipping option changes
+            document.getElementById('delivery-standard').addEventListener('change', updateCheckoutTotalWithShipping);
+            document.getElementById('delivery-express').addEventListener('change', updateCheckoutTotalWithShipping);
+            
+            // Initialize app
+            renderProducts();
+            updateCart();
+            updatePromotionsTable();
+            updateFeaturedTable();
+
+            // Event Listeners
+
+            // Admin toggle
+            document.getElementById('admin-toggle').addEventListener('click', function() {
+                const adminPanel = document.getElementById('admin-panel');
+                const adminButtons = document.querySelectorAll('.admin-buttons');
+                
+                if (adminPanel.style.display === 'none') {
+                    adminPanel.style.display = 'block';
+                    adminButtons.forEach(btn => btn.style.display = 'block');
+                } else {
+                    adminPanel.style.display = 'none';
+                    adminButtons.forEach(btn => btn.style.display = 'none');
+                }
+            });
+
+            // Add product form
+            document.getElementById('save-product-btn').addEventListener('click', function() {
+                const name = document.getElementById('product-name').value;
+                const description = document.getElementById('product-description').value;
+                const price = parseFloat(document.getElementById('product-price').value);
+                let image = document.getElementById('product-image').value;
+                const category = document.getElementById('product-category').value;
+                const featured = document.getElementById('product-featured').checked;
+                const discount = parseInt(document.getElementById('product-discount').value) || 0;
+                
+                if (!name || !description || isNaN(price) || !category) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+                
+                // Generate random image if not provided
+                if (!image) {
+                    const randomId = Math.floor(Math.random() * 200);
+                    image = `https://picsum.photos/id/${randomId}/600/400`;
+                }
+                
+                const newProduct = {
+                    id: nextProductId++,
+                    name,
+                    description,
+                    price,
+                    image,
+                    category,
+                    featured,
+                    discount
+                };
+                
+                products.push(newProduct);
+                saveData('products', products);
+                saveData('nextProductId', nextProductId.toString());
+                
+                // Close modal and reset form
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addProductModal'));
+                modal.hide();
+                document.getElementById('add-product-form').reset();
+                
+                renderProducts();
+                updatePromotionsTable();
+                updateFeaturedTable();
+                showToast('Produto adicionado com sucesso!');
+            });
+
+            // Update product form
+            document.getElementById('update-product-btn').addEventListener('click', function() {
+                const id = parseInt(document.getElementById('edit-product-id').value);
+                const name = document.getElementById('edit-product-name').value;
+                const description = document.getElementById('edit-product-description').value;
+                const price = parseFloat(document.getElementById('edit-product-price').value);
+                const image = document.getElementById('edit-product-image').value;
+                const category = document.getElementById('edit-product-category').value;
+                const featured = document.getElementById('edit-product-featured').checked;
+                const discount = parseInt(document.getElementById('edit-product-discount').value) || 0;
+                
+                if (!name || !description || isNaN(price) || !category) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+                
+                const updatedProduct = {
+                    id,
+                    name,
+                    description,
+                    price,
+                    image,
+                    category,
+                    featured,
+                    discount
+                };
+                
+                updateProduct(id, updatedProduct);
+                
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editProductModal'));
+                modal.hide();
+                
+                showToast('Produto atualizado com sucesso!');
+            });
+
+            // Clear cart button
+            document.getElementById('clear-cart-btn').addEventListener('click', function() {
+                cart = [];
+                saveData('cart', cart);
+                updateCart();
+            });
+
+            // Checkout button
+            document.getElementById('checkout-btn').addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Seu carrinho está vazio.');
+                    return;
+                }
+                
+                updateCheckoutModal();
+                const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+                modal.show();
+                
+                // Gerar códigos de pagamento automaticamente
+                generatePaymentCodes();
+            });
+
+            // Confirm order button
+            document.getElementById('confirm-order-btn').addEventListener('click', function() {
+                const loadingSpinner = document.getElementById('loading-spinner');
+                loadingSpinner.style.display = 'flex';
+                
+                // Simulate processing
+                setTimeout(() => {
+                    const orderNumber = generateOrderNumber();
+                    document.getElementById('order-number').textContent = orderNumber;
+                    
+                    // Save order
+                    const order = {
+                        orderNumber,
+                        date: new Date().toISOString(),
+                        items: [...cart],
+                        total: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
+                        status: 'processando'
+                    };
+                    
+                    orders.push(order);
+                    saveData('orders', orders);
+                    
+                    // Clear cart
+                    cart = [];
+                    saveData('cart', cart);
+                    updateCart();
+                    
+                    // Hide loading and checkout modal
+                    loadingSpinner.style.display = 'none';
+                    const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+                    checkoutModal.hide();
+                    
+                    // Show confirmation modal
+                    const confirmationModal = new bootstrap.Modal(document.getElementById('orderConfirmationModal'));
+                    confirmationModal.show();
+                }, 2000);
+            });
+
+            // Category filters
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Clear active class
+                    document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                    // Add active class to clicked pill
+                    this.classList.add('active');
+                    // Apply filter
+                    const category = this.dataset.category;
+                    const searchTerm = document.getElementById('search-input').value;
+                    filterProducts(category, searchTerm);
+                });
+            });
+
+            // Search button
+            document.getElementById('search-btn').addEventListener('click', function() {
+                const searchTerm = document.getElementById('search-input').value;
+                const activeCategory = document.querySelector('.category-pill.active').dataset.category;
+                filterProducts(activeCategory, searchTerm);
+            });
+
+            // Search input (search on Enter press)
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = this.value;
+                    const activeCategory = document.querySelector('.category-pill.active').dataset.category;
+                    filterProducts(activeCategory, searchTerm);
+                }
+            });
+
+            // Sort select
+            document.getElementById('sort-select').addEventListener('change', function() {
+                sortProducts(this.value);
+            });
+        });
+    </script>
+
+
+</body></html>
